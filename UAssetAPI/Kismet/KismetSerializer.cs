@@ -541,9 +541,11 @@ namespace UAssetAPI.Kismet
         public static JObject SerializeExpression(KismetExpression expression, ref int index, bool addindex = false)
         {
 
+            const string ApocHotfix = "_hotfix_index";
             int savedindex = index;
             JObject jexp = new JObject();
             index++;
+            if (addindex) { jexp.Add("StatementIndex", savedindex); }
             switch (expression)
             {
                 case EX_PrimitiveCast exp:
@@ -805,15 +807,20 @@ namespace UAssetAPI.Kismet
                 case EX_DeprecatedOp4A exp1:
                 case EX_Nothing exp2:
                 case EX_EndOfScript exp3:
-                case EX_IntZero exp4:
-                case EX_IntOne exp5:
-                case EX_True exp6:
-                case EX_False exp7:
                 case EX_NoObject exp8:
                 case EX_NoInterface exp9:
                 case EX_Self exp10:
                     {
                         jexp.Add("Inst", expression.Inst);
+                        break;
+                    }
+                case EX_IntZero exp4:
+                case EX_IntOne exp5:
+                case EX_True exp6:
+                case EX_False exp7:
+                    {
+                        jexp.Add("Inst", expression.Inst);
+                        jexp.Add(ApocHotfix, index-1);
                         break;
                     }
                 case EX_Return exp:
@@ -914,8 +921,9 @@ namespace UAssetAPI.Kismet
                     }
                 case EX_IntConst exp:
                     {
-                        index += 4;
                         jexp.Add("Inst", exp.Inst);
+                        jexp.Add(ApocHotfix, index-1);
+                        index += 4;
                         jexp.Add("Value", exp.Value);
                         break;
                     }
@@ -928,8 +936,9 @@ namespace UAssetAPI.Kismet
                     }
                 case EX_FloatConst exp:
                     {
-                        index += 4;
                         jexp.Add("Inst", exp.Inst);
+                        jexp.Add(ApocHotfix, index-1);
+                        index += 4;
                         jexp.Add("Value", exp.Value);
                         break;
                     }
@@ -995,6 +1004,7 @@ namespace UAssetAPI.Kismet
                 case EX_ObjectConst exp:
                     {
                         jexp.Add("Inst", exp.Inst);
+                        jexp.Add(ApocHotfix, index-1);
                         index += 8;
                         jexp.Add("Object", GetFullName(exp.Value.Index));
                         break;
@@ -1008,6 +1018,7 @@ namespace UAssetAPI.Kismet
                 case EX_NameConst exp:
                     {
                         jexp.Add("Inst", exp.Inst);
+                        jexp.Add(ApocHotfix, index-1);
                         index += 12;
                         jexp.Add("Value", exp.Value.ToString());
                         break;
@@ -1015,6 +1026,7 @@ namespace UAssetAPI.Kismet
                 case EX_RotationConst exp:
                     {
                         jexp.Add("Inst", exp.Inst);
+                        jexp.Add(ApocHotfix, index-1);
                         index += 12;
                         jexp.Add("Pitch", exp.Pitch);
                         jexp.Add("Yaw", exp.Yaw);
@@ -1024,6 +1036,7 @@ namespace UAssetAPI.Kismet
                 case EX_VectorConst exp:
                     {
                         jexp.Add("Inst", exp.Inst);
+                        jexp.Add(ApocHotfix, index-1);
                         index += 12;
                         jexp.Add("X", exp.Value.X);
                         jexp.Add("Y", exp.Value.Y);
@@ -1033,6 +1046,7 @@ namespace UAssetAPI.Kismet
                 case EX_TransformConst exp:
                     {
                         jexp.Add("Inst", exp.Inst);
+                        jexp.Add(ApocHotfix, index-1);
                         index += 40;
                         JObject jrot = new JObject();
                         JObject jtrans = new JObject();
@@ -1108,6 +1122,7 @@ namespace UAssetAPI.Kismet
                 case EX_ByteConst exp:
                     {
                         jexp.Add("Inst", exp.Inst);
+                        jexp.Add(ApocHotfix, index-1);
                         index++;
                         jexp.Add("Value", exp.Value);
                         break;
@@ -1115,6 +1130,7 @@ namespace UAssetAPI.Kismet
                 case EX_IntConstByte exp:
                     {
                         jexp.Add("Inst", exp.Inst);
+                        jexp.Add(ApocHotfix, index-1);
                         index++;
                         jexp.Add("Value", exp.Value);
                         break;
@@ -1122,6 +1138,7 @@ namespace UAssetAPI.Kismet
                 case EX_Int64Const exp:
                     {
                         jexp.Add("Inst", exp.Inst);
+                        jexp.Add(ApocHotfix, index-1);
                         index += 8;
                         jexp.Add("Value", exp.Value);
                         break;
@@ -1129,6 +1146,7 @@ namespace UAssetAPI.Kismet
                 case EX_UInt64Const exp:
                     {
                         jexp.Add("Inst", exp.Inst);
+                        jexp.Add(ApocHotfix, index-1);
                         index += 8;
                         jexp.Add("Value", exp.Value);
                         break;
@@ -1175,6 +1193,7 @@ namespace UAssetAPI.Kismet
                 case EX_InstanceDelegate exp:
                     {
                         jexp.Add("Inst", exp.Inst);
+                        jexp.Add(ApocHotfix, index-1);
                         index += 12;
                         jexp.Add("FunctionName", exp.FunctionName.ToString());
                         break;
@@ -1345,7 +1364,6 @@ namespace UAssetAPI.Kismet
                         break;
                     }
             }
-            if (addindex) { jexp.Add("StatementIndex", savedindex); }
             return jexp;
         }
 
