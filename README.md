@@ -1,5 +1,11 @@
 # UAssetAPI (With BL3/WL Modding Enhancements)
 
+**NOTE:** This is my branch for a few commits which are just for my own
+purposes -- mostly a change to the `.csproj` which probably isn't the
+right way to do it, and hardcoding my Python scripts to launch using my
+Python.NET-enabled venv.  If you're not me, you'll want the main branch,
+not this one.
+
 - [Overview](#overview)
 - [Compilation, Windows](#compilation-windows)
   - [Prerequisites](#prerequisites)
