@@ -202,6 +202,12 @@ generate:
 
 ![Bytecode Graph](https://raw.githubusercontent.com/apocalyptech/UAssetAPI/master/graph.png)
 
+The `StatementIndex` of each statement is included in brackets in front of the
+bold opcode type, on the first line of each node.  From that point on, whenever
+a hotfixable bit of data is encountered, it should prefix it with the bracketed
+index.  For instance, in that example graph, the only two hotfixable values are
+the `True` at index 159, and the `False` at index 42.
+
 Its syntax is pretty basic:
 
     $ bytecode-to-dot.py --help
