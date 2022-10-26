@@ -6,5 +6,6 @@ UAssetGUI
 UAssetAPI/git_commit.txt
 UAssetAPI/bin
 UAssetAPI/obj
+UAssetAPI/Newtonsoft.Json.dll
 UAssetAPI.Tests/bin
 UAssetAPI.Tests/obj
