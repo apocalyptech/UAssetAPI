@@ -272,6 +272,7 @@ This changelog is basically just for this BL3/WL-specific fork.
  - Added serialization and graphing scripts
  - Include README and Licenses in distributed zip
  - Checked in my own build scripts
+ - Merged in a bugfix from upstream
 
 **2022-10-25-01**
  - Initial Release
