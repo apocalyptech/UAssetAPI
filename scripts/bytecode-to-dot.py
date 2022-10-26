@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/local/dv/virtualenv/pythonnet/bin/python3
 # vim: set expandtab tabstop=4 shiftwidth=4:
 
 # Copyright 2022 Christopher J Kucera
