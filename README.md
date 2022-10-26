@@ -233,6 +233,24 @@ the arguments, to make tab-completions easier:
     Generated: Passive_Rogue_13-ubergraph-005-ExecuteUbergraph_Passive_Rogue_13.dot
     Rendered to: Passive_Rogue_13-ubergraph-005-ExecuteUbergraph_Passive_Rogue_13.png
 
+Note that there are various opcodes which haven't really been tested, since I
+haven't yet run into them on the data I'm looking at.  You may see some messages
+printed on the console if you generate graphs which contain any of those.  Let
+me know if they look funky!  Also, there's a few more complex-looking opcodes which
+I'm not doing *any* custom processing on -- in the graphs, they'll basically just
+tell you what sort of opcode they are and not show any detail.  If you come across
+examples of those, I'd appreciate sending the data over so I can see how to
+get them displayed.
+
+The full list of opcodes that I'm not doing custom processing on is:
+ - Assert
+ - CallMulticastDelegate
+ - InstrumentaionEvent
+ - MapConst
+ - SetConst
+ - SetMap
+ - SetSet
+
 ## Contributing
 Any contributions, whether through pull requests or issues, that you make are greatly appreciated.
 
