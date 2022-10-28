@@ -102,7 +102,8 @@ namespace UAssetAPI.ExportTypes
             int scriptStorageSize = reader.ReadInt32(); // # of bytes in total
             long startedReading = reader.BaseStream.Position;
 
-            bool willParseRaw = true;
+            // apoc -- always read in raw bytecode, in case we want to write it out
+            //bool willParseRaw = true;
             try
             {
                 if (ParseBytecode && Asset.ObjectVersion >= ObjectVersion.VER_UE4_ADDED_SWEEP_WHILE_WALKING_FLAG)
@@ -113,7 +114,8 @@ namespace UAssetAPI.ExportTypes
                         tempCode.Add(ExpressionSerializer.ReadExpression(reader));
                     }
                     ScriptBytecode = tempCode.ToArray();
-                    willParseRaw = false;
+                    // apoc -- always read in raw bytecode, in case we want to write it out
+                    //willParseRaw = false;
                 }
             }
             catch (Exception ex)
@@ -123,12 +125,13 @@ namespace UAssetAPI.ExportTypes
 #endif
             }
 
-            if (willParseRaw)
-            {
+            // apoc -- more always reading in raw bytecode
+            //if (willParseRaw)
+            //{
                 reader.BaseStream.Seek(startedReading, SeekOrigin.Begin);
-                ScriptBytecode = null;
+                //ScriptBytecode = null;
                 ScriptBytecodeRaw = reader.ReadBytes(scriptStorageSize);
-            }
+            //}
         }
 
         public override void Write(AssetBinaryWriter writer)
