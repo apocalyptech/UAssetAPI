@@ -180,7 +180,8 @@ The syntax is pretty basic:
 
     options:
       -h, --help     show this help message and exit
-      -r, --runtime  Show .NET runtime being used
+      -r, --raw   Also save out raw bytecode
+	  --runtime   Show .NET runtime being used
 
 And, as an example:
 
@@ -191,6 +192,11 @@ And, as an example:
 
 If the script isn't automatically finding the `UAssetAPI.dll` file to use, you can
 hardcode its location up near the top of the script.
+
+Passing in the `-r` or `--raw` options will have it also save out the raw bytecode
+in a `.raw` file alongside the JSON serializations.  Note that that does *not*
+match the in-memory bytecode; as it's loaded in, various things get converted to
+pointers, instead of the on-disk indexes.
 
 ### Graphing
 The next script, `bytecode-to-dot.py`, is used to create some
@@ -273,6 +279,12 @@ UAssetAPI and UAssetGUI are distributed under the MIT license, which you can vie
 
 ## Changelog
 This changelog is basically just for this BL3/WL-specific fork.
+
+*(unreleased)*
+ - Added `--raw` option to `serialize-ubergraph.py` to save out raw on-disk
+   bytecode alongside serializations
+ - `StructExport` will always include raw serialization, instead of only doing
+   so when serialization errors occur
 
 **2022-10-25-02**
  - Added serialization and graphing scripts

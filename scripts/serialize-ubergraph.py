@@ -60,6 +60,7 @@ def get_serializations(filename):
        1. Export index (1-indexed, not 0-indexed)
        2. Export Name
        3. Serialized Ubergraph Bytecode
+       4. "Raw" on-disk Bytecode (will not match in-memory bytecode!)
     """
     ass = UAssetAPI.UAsset(
             path=filename,
@@ -72,7 +73,7 @@ def get_serializations(filename):
             if export.ScriptBytecode:
                 # Attempt serialization (return is an object, but stringifies nicely)
                 serialized = UAssetAPI.Kismet.KismetSerializer.SerializeScript(export.ScriptBytecode)
-                yield (idx+1, export.ObjectName, serialized)
+                yield (idx+1, export.ObjectName, serialized, export.ScriptBytecodeRaw)
 
 def main():
 
@@ -80,7 +81,12 @@ def main():
             description='Serialize Ubergraph Bytecode using UAssetAPI',
             )
 
-    parser.add_argument('-r', '--runtime',
+    parser.add_argument('-r', '--raw',
+            action='store_true',
+            help='Also save out raw bytecode',
+            )
+
+    parser.add_argument('--runtime',
             action='store_true',
             help='Show .NET runtime being used',
             )
@@ -112,11 +118,17 @@ def main():
     if not os.path.exists(args.filename):
         raise RuntimeError(f'Not found: {args.filename}')
 
-    for index, name, serialization in get_serializations(args.filename):
+    for index, name, serialization, raw in get_serializations(args.filename):
         to_filename = f'{filename_base}-ubergraph-{index:03d}-{name}.json'
         with open(to_filename, 'w') as odf:
             odf.write(str(serialization))
         print(f'Wrote to: {to_filename}')
+
+        if args.raw:
+            raw_filename = f'{filename_base}-ubergraph-{index:03d}-{name}.raw'
+            with open(raw_filename, 'wb') as odf:
+                odf.write(bytes(raw))
+            print(f'Wrote raw to: {raw_filename}')
 
 if __name__ == '__main__':
     main()
