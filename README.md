@@ -274,11 +274,15 @@ UAssetAPI and UAssetGUI are distributed under the MIT license, which you can vie
 ## Changelog
 This changelog is basically just for this BL3/WL-specific fork.
 
-*(unreleased)*
+**2022-11-02-01**
  - Added `--raw` option to `serialize-ubergraph.py` to save out raw on-disk
    bytecode alongside serializations
  - `StructExport` will always include raw serialization, instead of only doing
    so when serialization errors occur
+ - Merged in some commits from upstream
+ - `bytecode-to-dot.py` will use angled brackets instead of square brackets to
+   report the "main" statement bytecode index (to prevent confusion with the
+   actually-hotfixable statements, which use square brackets)
 
 **2022-10-25-02**
  - Added serialization and graphing scripts

@@ -68,7 +68,7 @@ class Statement:
 
     def dot_label(self):
         lines = []
-        lines.append('[{}] <b>{}</b>'.format(
+        lines.append('&lt;{}&gt; <b>{}</b>'.format(
             self.index,
             self.type,
             ))
