@@ -3,5 +3,6 @@
 
 cd UAssetAPI
 msbuild /t:Clean UAssetAPI.csproj
+msbuild /p:Configuration=Release /t:Clean UAssetAPI.csproj
 cd ..
 
