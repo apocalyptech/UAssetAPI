@@ -926,6 +926,10 @@ class StructConst(Statement):
     def __init__(self, data, level=0):
         super().__init__(data, level)
         self.struct = data['Struct']
+        if '_interpreted_guid' in data:
+            self.guid = data['_interpreted_guid']
+        else:
+            self.guid = None
         self.properties = {}
         for key, vals in data['Properties'].items():
             self.properties[key] = []
@@ -937,11 +941,16 @@ class StructConst(Statement):
         for key, vals in self.properties.items():
             for val in vals:
                 bits.append(str(val.inline_label()))
-        return 'StructConst({})'.format(','.join(bits))
+        if self.guid is None:
+            return 'StructConst({})'.format(','.join(bits))
+        else:
+            return 'StructConst({} (guid: {}))'.format(','.join(bits), self.guid)
 
     def _dot_label(self):
         lines = []
         lines.append(f'{self.prefix}Struct:')
+        if self.guid is not None:
+            lines.append(f'{self.prefix}    (guid: {self.guid})')
         for key, vals in self.properties.items():
             lines.append(f'{self.prefix}    {key}:')
             for val in vals:
