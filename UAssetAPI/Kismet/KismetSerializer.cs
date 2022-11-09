@@ -1076,6 +1076,16 @@ namespace UAssetAPI.Kismet
                         index += 8;
                         jexp.Add("Struct", GetFullName(exp.Struct.Index));
 
+                        // apoc addition -- it'd be useful to turn this into the Guid values that
+                        // we see in data serializations, rather than just leaving them as four
+                        // separate ints
+                        bool isGuid = false;
+                        string Guid = "";
+                        if (GetFullName(exp.Struct.Index) == "/Script/CoreUObject.Guid")
+                        {
+                            isGuid = true;
+                        }
+
                         index += 4;
                         JObject jstruct = new JObject();
                         int tempindex = 0;
@@ -1084,9 +1094,17 @@ namespace UAssetAPI.Kismet
                             JArray jstructpart = new JArray();
                             jstructpart.Add(SerializeExpression(param, ref index));
                             jstruct.Add("Missing property name" + tempindex, jstructpart);
+                            if (isGuid)
+                            {
+                                Guid += jstructpart[0].Value<int>("Value").ToString("x8");
+                            }
                             tempindex++;
                         }
                         index++;
+                        if (isGuid)
+                        {
+                            jexp.Add("_interpreted_guid", Guid);
+                        }
                         jexp.Add("Properties", jstruct);
                         break;
                     }
