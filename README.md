@@ -278,6 +278,7 @@ This changelog is basically just for this BL3/WL-specific fork.
  - When a `StructConst` of type `/Script/CoreUObject.Guid` is detected, will
    add an `_interpreted_guid` to the serialization, which will match the GUIDs
    seen while serializing objects with JWP, etc.
+ - Default to SVG rendering in `bytecode-to-dot.py`, instead of PNG
 
 **2022-11-02-01**
  - Added `--raw` option to `serialize-ubergraph.py` to save out raw on-disk
