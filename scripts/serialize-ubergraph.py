@@ -40,11 +40,12 @@ else:
     my_dir = os.path.dirname(os.path.realpath(__file__))
     dirs_to_search = []
     dirs_to_search.append(my_dir)
-    dirs_to_search.append(os.path.realpath(os.path.join(my_dir, '..', 'UAssetAPI', 'bin', 'Debug')))
-    dirs_to_search.append(os.path.realpath(os.path.join(my_dir, '..', 'UAssetAPI', 'bin', 'Release')))
+    dirs_to_search.append(os.path.realpath(os.path.join(my_dir, '..', 'UAssetAPI', 'bin', 'Debug', 'netstandard2.0', 'publish')))
+    dirs_to_search.append(os.path.realpath(os.path.join(my_dir, '..', 'UAssetAPI', 'bin', 'Release', 'netstandard2.0', 'publish')))
 dll_found = False
 for dir_name in dirs_to_search:
     if os.path.exists(os.path.join(dir_name, 'UAssetAPI.dll')):
+        print(f'Loading UAssetAPI.dll from: {dir_name}')
         clr.AddReference(os.path.join(dir_name, 'UAssetAPI'))
         dll_found = True
         break
@@ -64,7 +65,7 @@ def get_serializations(filename):
     """
     ass = UAssetAPI.UAsset(
             path=filename,
-            engineVersion=UAssetAPI.UnrealTypes.UE4Version.VER_UE4_20,
+            engineVersion=UAssetAPI.UnrealTypes.EngineVersion.VER_UE4_20,
             )
 
     UAssetAPI.Kismet.KismetSerializer.asset = ass

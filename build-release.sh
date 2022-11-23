@@ -21,12 +21,15 @@ fi
 # Run the release
 cd UAssetAPI
 rm -rf bin/Release
-msbuild /p:Configuration=Release UAssetAPI.csproj
-cp ../LICENSE ../NOTICE.md ../README.md ../scripts/*.py bin/Release/
-cd bin
-mv Release "${FULL}"
-zip -r "${ZIP}" "${FULL}"
-mv "${FULL}" Release
+# Could auto-restore nuget stuff by including `-r` in the msbuild args
+msbuild -t:Publish -p:Configuration=Release UAssetAPI.csproj
+cp ../LICENSE ../NOTICE.md ../README.md ../scripts/*.py bin/Release/netstandard2.0/publish
+cd bin/Release/netstandard2.0
+mv publish "${FULL}"
+zip -r "../../${ZIP}" "${FULL}"
+mv "${FULL}" publish
+cd ..
+cd ..
 cd ..
 cd ..
 

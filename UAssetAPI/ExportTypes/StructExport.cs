@@ -120,7 +120,7 @@ namespace UAssetAPI.ExportTypes
             }
             catch (Exception ex)
             {
-#if DEBUG
+#if DEBUG_VERBOSE
                 Debug.WriteLine(ex.StackTrace);
 #endif
             }

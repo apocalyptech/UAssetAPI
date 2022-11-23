@@ -1177,11 +1177,11 @@ def main():
             description='Represent Ubergraph bytecode scripts as dotfiles',
             )
 
-    # NOTE: Depending on renderer, SVG output doesn't always do our
-    # text-alignment stuff properly
+    # NOTE: Depending on viewing application, SVG output doesn't always
+    # do our text-alignment stuff properly
     parser.add_argument('-r', '--render',
             choices=['png', 'svg', 'none'],
-            default='png',
+            default='svg',
             help='Render type',
             )
 

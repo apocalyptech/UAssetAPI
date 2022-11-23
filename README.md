@@ -111,35 +111,38 @@ git clone https://github.com/atenfyr/UAssetAPI.git
 
 2. Open the `UAssetAPI.sln` solution file within the newly-created UAssetAPI directory in Visual Studio, right-click on the solution name in the Solution Explorer, and press "Restore Nuget Packages."
 
-3. Press F6 and right-click the solution name in the Solution Explorer and press "Build Solution" to compile UAssetAPI.
+3. Press F6 or right-click the solution name in the Solution Explorer and press "Build Solution" to compile UAssetAPI. Note that this solution does not include UAssetGUI.
 
 ## Compilation, Linux
 Compiling on Linux is pretty straightforward.  I did so using
 [Mono](https://www.mono-project.com/) rather than
-[dotnet](https://dotnet.microsoft.com/en-us/download).  I didn't
-want to bother with that whole "NuGet" package management system,
-so I manually downloaded the one dependency
-[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json/releases)
-and put `Newtonsoft.Json.dll` right into the `UAssetAPI` dir (alongside
-`UAssetAPI.csproj`.  I then modified the Newtonsoft stanza in
-`UAssetAPI.csproj` to read:
+[dotnet](https://dotnet.microsoft.com/en-us/download).  Note that this
+project does make use of the "NuGet" package management system.  I'd
+originally resisted that a bit, but that's become more trouble than
+it's worth.
 
-```xml
-<Reference Include="Newtonsoft.Json">
-    <HintPath>Newtonsoft.Json.dll</HintPath>
-</Reference>
-```
+To restore all the NuGet dependencies at the same time as building, the
+following will build a debug version:
 
-Once that was done, the following will build a debug version:
-
-    $ msbuild /p:Configuration=Debug UAssetAPI.csproj
+    $ msbuild -r -t:Publish -p:Configuration=Debug UAssetAPI.csproj
 
 ... or for a Release version:
 
-    $ msbuild /p:Configuration=Release UAssetAPI.csproj
+    $ msbuild -r -t:Publish -p:Configuration=Release UAssetAPI.csproj
 
-That should create a `bin/Debug/UAssetAPI.dll` or
-`bin/Release/UAssetAPI.dll` for you.
+That should create a `bin/Debug/netstandard2.0/publish/UAssetAPI.dll` or
+`bin/Release/netstandard2.0/publish/UAssetAPI.dll` for you.  The `-t:Publish`
+argument is important because that's what copies `Newtonsoft.Json.dll` into
+place in the build directory.  Depending on your Mono config, you might see
+a target other than `netstandard2.0` in there.
+
+To skip the NuGet dependency steps, omit `-r`, but note that you'll have
+to restore at least once, using:
+
+    $ msbuild -t:Restore UAssetAPI.csproj
+
+I've wrapped up this functionality into a few shell scripts at the project
+root, namely `build-restore.sh`, `build-debug.sh`, and `build-release.sh`.
 
 ## Ancillary Scripts
 This fork also provides a couple of [Python](https://www.python.org) scripts
@@ -186,6 +189,7 @@ The syntax is pretty basic:
 And, as an example:
 
     $ serialize-ubergraph.py Passive_Rogue_13.u
+    Loading UAssetAPI.dll from: /home/pez/UAssetAPI-2022-11-23-01
     Wrote to: Passive_Rogue_13-ubergraph-005-ExecuteUbergraph_Passive_Rogue_13.json
     Wrote to: Passive_Rogue_13-ubergraph-006-OnActivated.json
     Wrote to: Passive_Rogue_13-ubergraph-007-OnDeactivated.json
@@ -214,9 +218,9 @@ generate:
 
 ![Bytecode Graph](https://raw.githubusercontent.com/apocalyptech/UAssetAPI/master/graph.png)
 
-The `StatementIndex` of each statement is included in brackets in front of the
+The `StatementIndex` of each statement is included in angle brackets in front of the
 bold opcode type, on the first line of each node.  From that point on, whenever
-a hotfixable bit of data is encountered, it should prefix it with the bracketed
+a hotfixable bit of data is encountered, it should prefix it with a square-bracketed
 index.  For instance, in that example graph, the only two hotfixable values are
 the `True` at index 159, and the `False` at index 42.
 
@@ -238,8 +242,8 @@ Its syntax is pretty basic:
                             Application to use to display renders
       --no-display          Don't auto-display renders
 
-By default it'll try to render the dotfile as a PNG, but you can specify `-r svg` to
-generate an SVG, or `none` to turn off rendering altogether.  If rendering an SVG or
+By default it'll try to render the dotfile as an SVG, but you can specify `-r png` to
+generate a PNG, or `none` to turn off rendering altogether.  If rendering an SVG or
 PNG, it'll also attempt to display the render immediately after generation, unless
 you specify `--no-display`.  The application used to open them can be specified with
 `-d`/`--display`, and defaults to [feh](https://feh.finalrewind.org/).
@@ -249,7 +253,7 @@ the arguments, to make tab-completions easier:
 
     $ bytecode-to-dot.py Passive_Rogue_13-ubergraph-005-ExecuteUbergraph_Passive_Rogue_13.
     Generated: Passive_Rogue_13-ubergraph-005-ExecuteUbergraph_Passive_Rogue_13.dot
-    Rendered to: Passive_Rogue_13-ubergraph-005-ExecuteUbergraph_Passive_Rogue_13.png
+    Rendered to: Passive_Rogue_13-ubergraph-005-ExecuteUbergraph_Passive_Rogue_13.svg
 
 Note that there are various opcodes which haven't really been tested, since I
 haven't yet run into them on the data I'm looking at.  You may see some messages
@@ -280,10 +284,14 @@ UAssetAPI and UAssetGUI are distributed under the MIT license, which you can vie
 ## Changelog
 This changelog is basically just for this BL3/WL-specific fork.
 
-*(unreleased)*
+**2022-11-23-01**
  - When a `StructConst` of type `/Script/CoreUObject.Guid` is detected, will
    add an `_interpreted_guid` to the serialization, which will match the GUIDs
    seen while serializing objects with JWP, etc.
+ - Default to SVG rendering in `bytecode-to-dot.py`, instead of PNG
+ - Merged in some commits from upstream (including various packaging/building
+   changes)
+ - Report on which `UAssetAPI.dll` is being used, in `serialize-ubergraph.py`
 
 **2022-11-02-01**
  - Added `--raw` option to `serialize-ubergraph.py` to save out raw on-disk

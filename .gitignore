@@ -2,10 +2,10 @@
 docs
 packages
 TestResults
-UAssetGUI
 UAssetAPI/git_commit.txt
 UAssetAPI/bin
 UAssetAPI/obj
-UAssetAPI/Newtonsoft.Json.dll
+UAssetAPI.Benchmark/bin
+UAssetAPI.Benchmark/obj
 UAssetAPI.Tests/bin
 UAssetAPI.Tests/obj
