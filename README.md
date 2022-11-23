@@ -278,7 +278,7 @@ UAssetAPI and UAssetGUI are distributed under the MIT license, which you can vie
 ## Changelog
 This changelog is basically just for this BL3/WL-specific fork.
 
-*(unreleased)*
+**2022-11-23-01**
  - When a `StructConst` of type `/Script/CoreUObject.Guid` is detected, will
    add an `_interpreted_guid` to the serialization, which will match the GUIDs
    seen while serializing objects with JWP, etc.
