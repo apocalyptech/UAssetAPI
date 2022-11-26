@@ -266,7 +266,6 @@ get them displayed.
 
 The full list of opcodes that I'm not doing custom processing on is:
  - Assert
- - CallMulticastDelegate
  - InstrumentaionEvent
  - MapConst
  - SetConst
@@ -283,6 +282,11 @@ UAssetAPI and UAssetGUI are distributed under the MIT license, which you can vie
 
 ## Changelog
 This changelog is basically just for this BL3/WL-specific fork.
+
+*(unreleased)*
+ - Added graphing support for `CallMulticastDelegate` opcodes (though the
+   `Parameters` array in there is basically still untested, except for cases
+   where it's empty)
 
 **2022-11-23-01**
  - When a `StructConst` of type `/Script/CoreUObject.Guid` is detected, will

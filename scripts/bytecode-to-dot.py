@@ -608,6 +608,17 @@ class CallMath(Function):
 
 
 class _Variable(Statement):
+    """
+    TODO: The initial examples of this that I'd run into all pointed "into" the
+    same object as the ubergraph, and so it seemed reasonable to truncate
+    the display (for both inline labels and dot labels) to just the final variable
+    bit.  I've now run into at least one instance where it's calling outside,
+    though, so we may want to consider reporting on the full var name.  Maybe
+    have an optional arg passed into these things containing the current object
+    name, and strip if it matches?  Anyway, the example of external references
+    can be found in: /Game/Maps/Zone_3/MotorcadeInterior/MotorcadeInterior_Plot,
+    specifically in the RemoveMulticastDelegate at index 20156.
+    """
 
     def __init__(self, data, level=0):
         super().__init__(data, level)
@@ -998,7 +1009,6 @@ class RemoveMulticastDelegate(Statement):
 
     def __init__(self, data, level=0):
         super().__init__(data, level)
-        print('NOTE: RemoveMulticastDelegate is currently untested.  Verify and make sure this works!')
         self.multicast = Statement.from_data(data['MulticastDelegate'], level+1)
         self.delegate = Statement.from_data(data['Delegate'], level+1)
 
@@ -1020,6 +1030,29 @@ class ClearMulticastDelegate(Statement):
 
     def _dot_label(self):
         return self.multicast._dot_label()
+
+
+class CallMulticastDelegate(Statement):
+
+    def __init__(self, data, level=0):
+        super().__init__(data, level)
+        print('NOTE: Parameters inside CallMulticastDelegate are currently untested.  Verify and make sure this works!')
+        self.self_context = data['DelegateSignatureFunction']['IsSelfContext']
+        self.function_parent = data['DelegateSignatureFunction']['MemberParent']
+        self.function_name = data['DelegateSignatureFunction']['MemberName']
+        self.delegate = Statement.from_data(data['Delegate'], level+1)
+        self.parameters = []
+        for param in data['Parameters']:
+            self.parameters.append(Statement.from_data(param, level+1))
+
+    def _dot_label(self):
+        lines = []
+        lines.append(f'{self.prefix}{self.delegate.inline_label()} -&gt;')
+        lines.append(f'{self.prefix}{self.function_parent} (')
+        for param in self.parameters:
+            lines.append(f'{self.prefix}  {param.inline_label()},')
+        lines.append(f'{self.prefix})')
+        return lines
 
 
 class MetaCast(Statement):
@@ -1064,6 +1097,7 @@ statement_types = {
         'Breakpoint': Breakpoint,
         'ByteConst': ByteConst,
         'CallMath': CallMath,
+        'CallMulticastDelegate': CallMulticastDelegate,
         'ClearMulticastDelegate': ClearMulticastDelegate,
         'ComputedJump': ComputedJump,
         'Context': Context,
@@ -1138,7 +1172,6 @@ statement_types = {
         #'SetConst': SetConst,
         #'SetMap': SetMap,
         #'MapConst': MapConst,
-        #'CallMulticastDelegate': CallMulticastDelegate,
         #'Assert': Assert,
         #'InstrumentationEvent': InstrumentationEvent,
         }
