@@ -277,7 +277,7 @@ UAssetAPI and UAssetGUI are distributed under the MIT license, which you can vie
 ## Changelog
 This changelog is basically just for this BL3/WL-specific fork.
 
-*(unreleased)*
+**2022-12-16-01**
  - Added graphing support for `CallMulticastDelegate` opcodes (though the
    `Parameters` array in there is basically still untested, except for cases
    where it's empty)
