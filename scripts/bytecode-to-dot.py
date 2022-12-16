@@ -1240,6 +1240,8 @@ def main():
     if filename.endswith('.'):
         filename += 'json'
     filename_base = filename.rsplit('.', 1)[0]
+    if filename_base == filename:
+        filename += '.json'
     filename_dot = f'{filename_base}.dot'
     filename_render = f'{filename_base}.{args.render}'
 

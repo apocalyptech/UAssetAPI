@@ -281,6 +281,8 @@ This changelog is basically just for this BL3/WL-specific fork.
  - Added graphing support for `CallMulticastDelegate` opcodes (though the
    `Parameters` array in there is basically still untested, except for cases
    where it's empty)
+ - Fix `bytecode-to-dot.py` so it can be given a filename which completely
+   omits the extension (including the dot)
  - Merged in some commits from upstream
 
 **2022-11-23-01**
