@@ -281,6 +281,7 @@ This changelog is basically just for this BL3/WL-specific fork.
  - Added graphing support for `CallMulticastDelegate` opcodes (though the
    `Parameters` array in there is basically still untested, except for cases
    where it's empty)
+ - Merged in some commits from upstream
 
 **2022-11-23-01**
  - When a `StructConst` of type `/Script/CoreUObject.Guid` is detected, will
