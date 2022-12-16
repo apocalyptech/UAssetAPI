@@ -321,7 +321,6 @@ class TextConst(Statement):
         super().__init__(data, level)
         self.text_type = data['TextLiteralType']
         if self.text_type == 'Empty':
-            print('NOTE: TextConst of type Empty is currently untested.  Verify and make sure this works!')
             self.value = ''
         elif self.text_type == 'LocalizedText':
             self.value = data['SourceString']
@@ -1036,12 +1035,13 @@ class CallMulticastDelegate(Statement):
 
     def __init__(self, data, level=0):
         super().__init__(data, level)
-        print('NOTE: Parameters inside CallMulticastDelegate are currently untested.  Verify and make sure this works!')
         self.self_context = data['DelegateSignatureFunction']['IsSelfContext']
         self.function_parent = data['DelegateSignatureFunction']['MemberParent']
         self.function_name = data['DelegateSignatureFunction']['MemberName']
         self.delegate = Statement.from_data(data['Delegate'], level+1)
         self.parameters = []
+        if len(data['Parameters']) > 0:
+            print('NOTE: Parameters inside CallMulticastDelegate are currently untested.  Verify and make sure this works!')
         for param in data['Parameters']:
             self.parameters.append(Statement.from_data(param, level+1))
 
