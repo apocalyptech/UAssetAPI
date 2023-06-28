@@ -438,6 +438,12 @@ class ArrayConst(Statement):
             lines.extend(value._dot_label())
         return lines
 
+    def inline_label(self):
+        bits = []
+        for val in self.values:
+            bits.append(str(val.inline_label()))
+        return '[{}]'.format(','.join(bits))
+
 
 class SoftObjectConst(Statement):
 
@@ -1264,7 +1270,10 @@ def main():
         if os.path.exists(filename_render):
             print(f'Rendered to: {filename_render}')
             if args.render in {'png', 'svg'} and args.do_display:
-                subprocess.run([args.display, filename_render])
+                try:
+                    subprocess.run([args.display, filename_render])
+                except Exception as e:
+                    print(f'WARNING: Could not render to "{filename_render}": {e}')
         else:
             print(f'WARNING: Could not render to: {filename_render}')
 
