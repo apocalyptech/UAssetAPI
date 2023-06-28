@@ -89,9 +89,27 @@ The opcode types that we're capable of editing using this method are:
 This fork also moves the `StatementIndex` keys up to the top of each
 statement, just for ease of human readability.
 
-To make use of it, either compile it yourself (see below) or grab a
-precompiled DLL from the Releases area.  Slap `UAssetAPI.dll` into
-UAssetGUI's dir, or wherever you need it for API access to work.
+### A note on usage
+
+I primarily use this UAssetAPI fork as part of some custom Python scripts
+which you can find documented below.  I don't habitually make use of the
+GUI itself.  It turns out that over time, I've merged in upstream
+changes which have made this fork incompatible with the "released" versions
+of UAssetGUI (the latest at time of writing being v1.0.0.0-alpha.7).
+
+If you want to make use of this fork of UAssetAPI while inside UAssetGUI,
+the last release here which actually works with it is [v2022-11-02-01](https://github.com/apocalyptech/UAssetAPI/releases/tag/v2022-11-02-01).
+You can grab that version, slap `UAssetAPI.dll` into UAssetGUI's dir
+(alongside `UAssetAPI.exe`), and you should be good to go.
+
+If you compile up UAssetGUI from github, you may be able to make use
+of this fork more directly, though as of June 2023, this repo's
+fallen pretty far behind the upstream version, since I haven't been
+doing Borderlands modding.
+
+This fork *can* be used quite handily with the Python scripts below,
+though, which let you do easy commandline serialization of objects, in
+a way that's useful for BL3/WL hotfix modding.
 
 <img src="https://i.imgur.com/GZbr93m.png" align="center">
 
@@ -282,6 +300,9 @@ UAssetAPI and UAssetGUI are distributed under the MIT license, which you can vie
 
 ## Changelog
 This changelog is basically just for this BL3/WL-specific fork.
+
+**NOTE:** The last version of this fork which works with UAssetGUI v1.0.0.0-alpha.7
+is "2022-11-02-01"
 
 **2022-12-16-01**
  - Added graphing support for `CallMulticastDelegate` opcodes (though the
