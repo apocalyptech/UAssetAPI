@@ -7,6 +7,9 @@ Python.NET-enabled venv.  If you're not me, you'll want the main branch,
 not this one.
 
 - [Overview](#overview)
+  - [A note on usage](#a-note-on-usage)
+  - [Windows Security](#windows-security)
+- [Screenshot](#screenshot)
 - [Compilation, Windows](#compilation-windows)
   - [Prerequisites](#prerequisites)
   - [Initial Setup](#initial-setup)
@@ -110,6 +113,34 @@ doing Borderlands modding.
 This fork *can* be used quite handily with the Python scripts below,
 though, which let you do easy commandline serialization of objects, in
 a way that's useful for BL3/WL hotfix modding.
+
+### Windows Security
+
+Note that when downloading rando content from the internet (such as
+the release zips from this project), Windows might mark the download
+as untrustworthy.  That marking will persist on DLLs unzipped from the
+archive.  This can definitely impact the Ubergraph serialization
+script that I talk about down below, and may even lead to problems
+using the DLL in conjunction with UAssetGUI.  If you do run into this,
+the error will end up mentioning something like:
+
+    System.NotSupportedException: An attempt was made to load an assembly from
+    a network location which would have caused the assembly to be sandboxed in
+    previous versions of the .NET Framework. This release of the .NET Framework
+    does not enable CAS policy by default, so this load may be dangerous.
+
+The key phrase there is "network location."  Even though it's a file on
+your local machine, it knows that it was originally downloaded from the
+internet.  There's some talk about this on Stack Overflow:
+[one](https://stackoverflow.com/questions/74828595/)/[two](https://stackoverflow.com/a/63130697/5311735),
+and some discussion on how to "unblock" a zipfile
+[over here](https://singularlabs.com/tips/how-to-unblock-a-zip-file-on-windows-10/).
+
+So, if you run into that problem while attempting to use this, that might
+be the place to go.  Alternatively, you can just compile it yourself, of
+course.
+
+## Screenshot
 
 <img src="https://i.imgur.com/GZbr93m.png" align="center">
 
