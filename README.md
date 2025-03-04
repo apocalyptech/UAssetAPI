@@ -329,6 +329,11 @@ This changelog is basically just for this BL3/WL-specific fork.
 **NOTE:** The last version of this fork which works with UAssetGUI v1.0.0.0-alpha.7
 is "2022-11-02-01"
 
+**2025-03-04-01**
+ - `ObjectConst` graphing was trimming off some of the reported target when there
+   were dots in the name.  I have no idea why I was doing that, but it's causing
+   problems for other folks using the graph, so I've commented out that trimming.
+
 **2022-12-16-01**
  - Added graphing support for `CallMulticastDelegate` opcodes (though the
    `Parameters` array in there is basically still untested, except for cases

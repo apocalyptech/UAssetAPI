@@ -351,8 +351,12 @@ class ObjectConst(Statement):
         super().__init__(data, level)
         self.index = data['_hotfix_index']
         self.object = data['Object']
-        if '.' in self.object:
-            self.object = self.object.rsplit('.', 1)[0]
+        # 2025-03-04 update -- no idea why I'd originally been trimming off the last bit of data here
+        # when there's a dot.  Presumably it seemed to make sense at the time, but I wouldn't even
+        # know where to look to figure out what I was looking at at the time.  Anyway, having it missing
+        # is causing problems, so commenting it out!
+        #if '.' in self.object:
+        #    self.object = self.object.rsplit('.', 1)[0]
 
     def inline_label(self):
         return f'[{self.index}] {self.object}'
