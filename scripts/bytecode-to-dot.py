@@ -825,12 +825,17 @@ class BindDelegate(Statement):
 
     def __init__(self, data, level=0):
         super().__init__(data, level)
-        # TODO: read in Function too?
         self.delegate = Statement.from_data(data['Delegate'], level)
         self.object = Statement.from_data(data['Object'], level)
+        if 'FunctionName' in data:
+            self.function_name = data['FunctionName']
+        else:
+            self.function_name = None
 
     def _dot_label(self):
         lines = []
+        if self.function_name is not None:
+            lines.append(f'{self.prefix}Function: {self.function_name}')
         lines.append(f'{self.prefix}{self.delegate.inline_label()} to:')
         lines.append(f'{self.prefix}    {self.object.inline_label()}')
         return lines

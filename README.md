@@ -333,6 +333,7 @@ is "2022-11-02-01"
  - `ObjectConst` graphing was trimming off some of the reported target when there
    were dots in the name.  I have no idea why I was doing that, but it's causing
    problems for other folks using the graph, so I've commented out that trimming.
+ - Include `FunctionName` in `BindDelegate` graphs
 
 **2022-12-16-01**
  - Added graphing support for `CallMulticastDelegate` opcodes (though the
